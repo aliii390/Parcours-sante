@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion — Parcours Santé{% endblock %}
+
+{% block body %}
+
+
+  <!-- Main content -->
+  <div class="flex-1 flex items-center justify-center px-4 pb-12 md:pb-0">
+    <div class="w-full max-w-md">
+      <!-- Card form -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+        <div class="mb-8 text-center md:text-left">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Connexion</h2>
+          <p class="text-gray-500 text-sm md:text-base">Ravie de vous revoir. Connectez-vous à votre espace santé.</p>
+        </div>
+
+        <form method="post" class="space-y-6">
+          {% if error %}
+            <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm">
+              {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+          {% endif %}
+
+          {% if app.user %}
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <p class="text-blue-700 text-sm">
+                Vous êtes connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>
+                <a href="{{ logout_path() }}" class="ml-2 text-blue-600 hover:underline">Déconnexion</a>
+              </p>
+            </div>
+          {% endif %}
+
+          <!-- Email field -->
+          <div>
+            <label for="username" class="block text-sm font-semibold text-gray-900 mb-2">Adresse e-mail</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              <input 
+                type="email" 
+                name="_username" 
+                id="username" 
+                value="{{ last_username }}"
+                placeholder="nom@example.fr"
+                class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                autocomplete="email" 
+                required 
+                autofocus
+              >
+            </div>
+          </div>
+
+          <!-- Password field -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label for="password" class="block text-sm font-semibold text-gray-900">Mot de passe</label>
+              <a href="#" class="text-xs text-gray-600 hover:text-gray-900 underline">Mot de passe oublié ?</a>
+            </div>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+              <input 
+                type="password" 
+                name="_password" 
+                id="password" 
+                placeholder="••••••••"
+                class="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                autocomplete="current-password" 
+                required
+              >
+              <button 
+                type="button" 
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                onclick="togglePassword()"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- CSRF token -->
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+          <!-- Submit button -->
+          <button 
+            type="submit" 
+            class="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white font-bold py-3 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 mt-8"
+          >
+            Se connecter 
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Sign up link -->
+        <div class="mt-8 pt-8 border-t border-gray-200 text-center">
+          <p class="text-xs text-gray-500 uppercase tracking-wide mb-4">Nouveau sur la plateforme ?</p>
+          <a 
+            href="{{ path('app_register') }}" 
+            class="block w-full px-4 py-3 border-2 border-gray-300 hover:border-blue-500 text-gray-900 hover:text-blue-600 font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+            </svg>
+            Créer un compte
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+</div>
+
+<script>
+function togglePassword() {
+  const input = document.getElementById('password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+</script>
+{% endblock %}

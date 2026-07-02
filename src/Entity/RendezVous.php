@@ -29,6 +29,12 @@ class RendezVous
     #[ORM\Column(type: Types::TEXT)]
     private ?string $notes = null;
 
+    #[ORM\ManyToOne(inversedBy: 'rendezVouses')]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'rdv')]
+    private ?Category $category = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +96,30 @@ class RendezVous
     public function setNotes(string $notes): static
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
+
+    /**
+     * @var Collection<int, RendezVous>
+     */
+    #[ORM\OneToMany(targetEntity: RendezVous::class, mappedBy: 'user')]
+    private Collection $rendezVouses;
+
+    /**
+     * @var Collection<int, Category>
+     */
+    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'user')]
+    private Collection $categories;
+
+    public function __construct()
+    {
+        $this->rendezVouses = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,6 +160,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RendezVous>
+     */
+    public function getRendezVouses(): Collection
+    {
+        return $this->rendezVouses;
+    }
+
+    public function addRendezVouse(RendezVous $rendezVouse): static
+    {
+        if (!$this->rendezVouses->contains($rendezVouse)) {
+            $this->rendezVouses->add($rendezVouse);
+            $rendezVouse->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRendezVouse(RendezVous $rendezVouse): static
+    {
+        if ($this->rendezVouses->removeElement($rendezVouse)) {
+            // set the owning side to null (unless already changed)
+            if ($rendezVouse->getUser() === $this) {
+                $rendezVouse->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getUser() === $this) {
+                $category->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -12,7 +12,7 @@
 
     <!-- Greeting -->
     <div class="mb-8">
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">Bonjour, Marie</h1>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">Bonjour, {{app.user.prenom}}</h1>
       <p class="text-gray-500 text-sm md:text-base">Voici un aperçu de votre santé pour aujourd'hui, 14 Mars 2026.</p>
     </div>
 
@@ -33,56 +33,29 @@
             </h2>
             <a href="{{path('app_rendez_vous')}}" class="text-sm font-medium text-gray-900 underline hover:text-blue-600">Voir tout</a>
           </div>
-
+ {% for rdv in rendezVous %}
           <div class="space-y-3">
             <!-- RDV 1 -->
+           
             <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors">
               <div class="flex flex-col items-center justify-center w-12 h-14 bg-slate-100 rounded-lg flex-shrink-0">
                 <span class="text-[10px] font-semibold text-gray-400 uppercase">Mar</span>
                 <span class="text-lg font-bold text-gray-900 leading-none">15</span>
               </div>
               <div class="flex-1 min-w-0">
-                <p class="font-bold text-gray-900 text-sm">Dr. Sophie Martin</p>
-                <p class="text-xs text-gray-500">Cardiologue • Consultation de suivi</p>
+                <p class="font-bold text-gray-900 text-sm">{{rdv.titre}}</p>
+                <p class="text-xs text-gray-500">{{rdv.category.nom}} • {{rdv.medecin}}</p>
               </div>
               <div class="text-right hidden sm:block">
-                <p class="text-sm font-bold text-gray-900">09:30</p>
+                <p class="text-sm font-bold text-gray-900">{{rdv.date|date('H:i')}}</p>
                 <p class="text-xs text-gray-400">Cabinet Médical</p>
               </div>
+             
             </div>
+            {% endfor %}
 
-            <!-- RDV 2 -->
-            <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors">
-              <div class="flex flex-col items-center justify-center w-12 h-14 bg-slate-100 rounded-lg flex-shrink-0">
-                <span class="text-[10px] font-semibold text-gray-400 uppercase">Mar</span>
-                <span class="text-lg font-bold text-gray-900 leading-none">22</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <p class="font-bold text-gray-900 text-sm">Dr. Jean Dupont</p>
-                <p class="text-xs text-gray-500">Généraliste • Renouvellement</p>
-              </div>
-              <div class="text-right hidden sm:block">
-                <p class="text-sm font-bold text-gray-900">14:15</p>
-                <p class="text-xs text-gray-400">Vidéo-consultation</p>
-              </div>
-            </div>
-
-            <!-- RDV 3 -->
-            <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors">
-              <div class="flex flex-col items-center justify-center w-12 h-14 bg-slate-100 rounded-lg flex-shrink-0">
-                <span class="text-[10px] font-semibold text-gray-400 uppercase">Avr</span>
-                <span class="text-lg font-bold text-gray-900 leading-none">05</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <p class="font-bold text-gray-900 text-sm">Laboratoire Central</p>
-                <p class="text-xs text-gray-500">Analyse de sang</p>
-              </div>
-              <div class="text-right hidden sm:block">
-                <p class="text-sm font-bold text-gray-900">08:00</p>
-                <p class="text-xs text-gray-400">Sur place</p>
-              </div>
-            </div>
-          </div>
+            
+         
         </section>
 
         <!-- DERNIÈRE ENTRÉE JOURNAL -->

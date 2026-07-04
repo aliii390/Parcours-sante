@@ -20,14 +20,15 @@ class Medicament
     #[ORM\Column(length: 255)]
     private ?string $dosage = null;
 
-    #[ORM\Column]
-    private ?bool $actif = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $date_debut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $date_fin = null;
+
+    #[ORM\ManyToOne(inversedBy: 'medicaments')]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -58,17 +59,22 @@ class Medicament
         return $this;
     }
 
-    public function isActif(): ?bool
-    {
-        return $this->actif;
+    public function isActif(): bool
+{
+    $aujourdhui = new \DateTime('today');
+
+    if ($this->date_debut !== null && $this->date_debut > $aujourdhui) {
+        return false; // pas encore commencé
     }
 
-    public function setActif(bool $actif): static
-    {
-        $this->actif = $actif;
-
-        return $this;
+    if ($this->date_fin !== null && $this->date_fin < $aujourdhui) {
+        return false; // terminé
     }
+
+    return true;
+}
+
+    
 
     public function getDateDebut(): ?\DateTime
     {
@@ -90,6 +96,18 @@ class Medicament
     public function setDateFin(\DateTime $date_fin): static
     {
         $this->date_fin = $date_fin;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

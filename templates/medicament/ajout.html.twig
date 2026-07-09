@@ -1,24 +1,23 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Ajouter un médicament — Parcours Santé{% endblock %}
 
 {% block body %}
 <div class="min-h-screen bg-slate-50 flex flex-col pb-32 md:pb-0">
-
- 
 
   <!-- ===== MAIN ===== -->
   <main class="flex-1 max-w-3xl w-full mx-auto px-4 md:px-8 py-6 md:py-8">
 
     <!-- Retour (desktop) -->
-    <a href="#" class="hidden md:inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 mb-6 transition-colors">
+    <a href="{{ path('app_medicament') }}" class="hidden md:inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 mb-6 transition-colors">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-      Retour aux rendez-vous
+      Retour aux médicaments
     </a>
 
     <!-- Titre mobile (hors carte) -->
     <div class="md:hidden mb-6">
       <h1 class="text-3xl font-bold text-gray-900 mb-1">Ajouter un médicament</h1>
-      <p class="text-gray-500 text-sm">Planifiez votre nouvelle consultation santé.</p>
+      <p class="text-gray-500 text-sm">Renseignez votre traitement et ses prises.</p>
     </div>
 
     <!-- Carte formulaire -->
@@ -27,133 +26,151 @@
       <!-- Titre desktop (dans la carte) -->
       <div class="hidden md:block mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-1">Ajouter un médicament</h1>
-        <p class="text-gray-500 text-sm">Remplissez les informations ci-dessous pour planifier votre nouvelle consultation.</p>
+        <p class="text-gray-500 text-sm">Renseignez les informations de votre traitement et planifiez vos prises quotidiennes.</p>
       </div>
 
-{{ form_start(medicamentType, {'attr': {'class': 'space-y-6'}}) }}
+      {{ form_start(medicamentType, {'attr': {'class': 'space-y-6', 'id': 'medicament-form'}}) }}
 
-  <!-- Titre du rendez-vous -->
-  <div>
-    {{ form_label(medicamentType.nom, 'Nom du médicament', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
-    {{ form_widget(medicamentType.nom, {'attr': {
-      'class': 'w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-gray-400',
-      'placeholder': 'Ex: Consultation de suivi'
-    }}) }}
-    {{ form_errors(medicamentType.nom) }}
-  </div>
+        <!-- Nom du médicament -->
+        <div>
+          {{ form_label(medicamentType.nom, 'Nom du médicament', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
+          {{ form_widget(medicamentType.nom, {'attr': {
+            'class': 'w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-gray-400',
+            'placeholder': 'Ex: Ramipril'
+          }}) }}
+          {{ form_errors(medicamentType.nom) }}
+        </div>
 
-  <!-- Type (HTML brut, à gérer plus tard) -->
- {# <div>
-  {{ form_label(rendezVousType.category, 'Type', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
-  <div class="relative">
-    {{ form_widget(rendezVousType.category, {'attr': {
-      'class': 'w-full appearance-none px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-700 bg-white cursor-pointer'
-    }}) }}
-    <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-  </div>
-  {{ form_errors(rendezVousType.category) }}
-</div> #}
+        <!-- Dosage -->
+        <div>
+          {{ form_label(medicamentType.dosage, 'Dosage', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
+          {{ form_widget(medicamentType.dosage, {'attr': {
+            'class': 'w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-gray-400',
+            'placeholder': 'Ex: 5mg'
+          }}) }}
+          {{ form_errors(medicamentType.dosage) }}
+        </div>
 
-  <!-- Date + Heure -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <div>
-      {{ form_label(medicamentType.date_debut, 'Début du traitement', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
-      {{ form_widget(medicamentType.date_debut, {'attr': {
-        'class': 'w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-700'
-      }}) }}
-      {{ form_errors(medicamentType.date_debut) }}
-    </div>
+        <!-- Date début + Date fin -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            {{ form_label(medicamentType.date_debut, 'Début du traitement', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
+            {{ form_widget(medicamentType.date_debut, {'attr': {
+              'class': 'w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-700'
+            }}) }}
+            {{ form_errors(medicamentType.date_debut) }}
+          </div>
+          <div>
+            {{ form_label(medicamentType.date_fin, 'Fin du traitement', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
+            {{ form_widget(medicamentType.date_fin, {'attr': {
+              'class': 'w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-700'
+            }}) }}
+            {{ form_errors(medicamentType.date_fin) }}
+          </div>
+        </div>
 
-   <div>
-      {{ form_label(medicamentType.date_fin, 'fin du traitement', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
-      {{ form_widget(medicamentType.date_fin, {'attr': {
-        'class': 'w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-700'
-      }}) }}
-      {{ form_errors(medicamentType.date_fin) }}
-    </div>
+        <!-- ===== PRISES QUOTIDIENNES (collection) ===== -->
+        <div class="pt-6 border-t border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-sm font-semibold text-gray-900">Prises quotidiennes</h2>
+              <p class="text-xs text-gray-500">Ajoutez chaque prise avec son heure et le nombre de comprimés.</p>
+            </div>
+          </div>
 
-    {# <div>
-      <label for="heure" class="block text-sm font-semibold text-gray-900 mb-2">Heure</label>
-      <input type="time" name="heure" id="heure"
-        class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-700">
-    </div> #}
-  </div>
+          <!-- Container des prises -->
+          <div id="prises-container"
+             data-index="{{ medicamentType.priseMedicaments|length }}"
+data-prototype="{{ form_widget(medicamentType.priseMedicaments.vars.prototype)|e('html_attr') }}"
+               class="space-y-3">
 
-  <!-- Lieu -->
-  {# <div>
-    {{ form_label(rendezVousType.lieu, 'Lieu', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
-    <div class="relative">
-      <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3" stroke-width="2"/></svg>
-      {{ form_widget(rendezVousType.lieu, {'attr': {
-        'class': 'w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-gray-400',
-        'placeholder': "Nom de l'hôpital ou adresse"
-      }}) }}
-    </div>
-    {{ form_errors(rendezVousType.lieu) }}
-  </div> #}
+            {% for prise in medicamentType.priseMedicaments  %}
+              <div class="prise-item flex items-end gap-3 p-4 bg-slate-50 rounded-xl border border-gray-100">
+                <div class="flex-1 grid grid-cols-2 gap-3">
+                  <div>
+                    {{ form_label(prise.heurePrevue, 'Heure', {'label_attr': {'class': 'block text-xs font-semibold text-gray-700 mb-1.5'}}) }}
+                    {{ form_widget(prise.heurePrevue, {'attr': {'class': 'w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'}}) }}
+                  </div>
+                  <div>
+                    {{ form_label(prise.nombreComprimes, 'Comprimés', {'label_attr': {'class': 'block text-xs font-semibold text-gray-700 mb-1.5'}}) }}
+                    {{ form_widget(prise.nombreComprimes, {'attr': {'class': 'w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'}}) }}
+                  </div>
+                </div>
+                <button type="button" class="btn-remove-prise flex-shrink-0 w-10 h-10 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" aria-label="Supprimer">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+              </div>
+            {% endfor %}
+          </div>
 
-  <!-- Médecin -->
-  {# <div>
-    {{ form_label(rendezVousType.medecin, 'Médecin', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
-    <div class="relative">
-      <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-      {{ form_widget(rendezVousType.medecin, {'attr': {
-        'class': 'w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-gray-400',
-        'placeholder': 'Dr. Nom Prénom'
-      }}) }}
-    </div>
-    {{ form_errors(rendezVousType.medecin) }}
-  </div>
+          <!-- Bouton ajouter -->
+          <button type="button" id="add-prise" class="mt-3 w-full border-2 border-dashed border-gray-200 hover:border-gray-300 text-gray-500 hover:text-gray-700 text-sm font-medium py-3 rounded-xl transition-colors inline-flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Ajouter une prise
+          </button>
+        </div>
 
-  <!-- Notes -->
-  <div>
-    {{ form_label(rendezVousType.notes, 'Notes', {'label_attr': {'class': 'block text-sm font-semibold text-gray-900 mb-2'}}) }}
-    {{ form_widget(rendezVousType.notes, {'attr': {
-      'class': 'w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-gray-400 resize-none',
-      'placeholder': 'Instructions particulières, questions à poser...',
-      'rows': 4
-    }}) }}
-    {{ form_errors(rendezVousType.notes) }}
-  </div> #}
+        <!-- Actions (desktop) -->
+        <div class="hidden md:flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+          <a href="{{ path('app_medicament') }}" class="text-sm font-medium text-gray-700 border border-gray-200 hover:border-gray-300 px-6 py-3 rounded-lg transition-colors">Annuler</a>
+          <button type="submit" class="text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 px-6 py-3 rounded-lg transition-colors">Enregistrer</button>
+        </div>
 
-  <!-- Actions (desktop) -->
-  <div class="hidden md:flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
-    <a href="{{ path('app_rendez_vous') }}" class="text-sm font-medium text-gray-700 border border-gray-200 hover:border-gray-300 px-6 py-3 rounded-lg transition-colors">Annuler</a>
-    <button type="submit" class="text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 px-6 py-3 rounded-lg transition-colors">Enregistrer</button>
-  </div>
-
-{{ form_end(medicamentType) }}
-    </div>
-
-    <!-- Bloc aide (desktop) -->
-    <div class="hidden md:flex items-start gap-4 mt-6 p-5 border-2 border-dashed border-gray-200 rounded-2xl">
-      <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
-        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      </div>
-      <div>
-        <p class="text-sm font-bold text-gray-900 mb-1">Besoin d'aide ?</p>
-        <p class="text-xs text-gray-500 mb-2">Si vous avez reçu une convocation par courrier, vous pouvez scanner le document pour pré-remplir ce formulaire automatiquement.</p>
-        <a href="#" class="text-sm font-semibold text-gray-900 underline hover:text-blue-600">Scanner un document</a>
-      </div>
-    </div>
-
-    <!-- Bloc scan (mobile) -->
-    <div class="md:hidden flex items-start gap-3 mt-6 p-4 bg-slate-50 border border-gray-200 rounded-2xl">
-      <div class="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
-        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3" stroke-width="2"/></svg>
-      </div>
-      <div>
-        <p class="text-sm font-bold text-gray-900 mb-1">Scanner un document ?</p>
-        <p class="text-xs text-gray-500">Pré-remplissez le formulaire en prenant une photo de votre convocation.</p>
-      </div>
+      {{ form_end(medicamentType) }}
     </div>
   </main>
 
   <!-- ===== ACTIONS FIXES (mobile) ===== -->
   <div class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 px-4 py-3 z-40 space-y-2">
-    <button type="submit" form="" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-4 rounded-xl transition-colors">Enregistrer le rendez-vous</button>
-    <a href="#" class="block text-center text-sm font-medium text-gray-500 hover:text-gray-900 py-2">Annuler</a>
+    <button type="submit" form="medicament-form" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-4 rounded-xl transition-colors">Enregistrer le médicament</button>
+    <a href="{{ path('app_medicament') }}" class="block text-center text-sm font-medium text-gray-500 hover:text-gray-900 py-2">Annuler</a>
   </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const container = document.getElementById('prises-container');
+  const addButton = document.getElementById('add-prise');
+
+  // Ajouter une prise
+  addButton.addEventListener('click', function () {
+    const index = parseInt(container.dataset.index);
+    let prototype = container.dataset.prototype;
+    // Remplace __name__ par l'index courant
+    prototype = prototype.replace(/__name__/g, index);
+
+    // Enveloppe la prise dans une ligne stylée
+    const wrapper = document.createElement('div');
+    wrapper.className = 'prise-item flex items-end gap-3 p-4 bg-slate-50 rounded-xl border border-gray-100';
+    wrapper.innerHTML = `
+      <div class="flex-1 grid grid-cols-2 gap-3 prise-fields">${prototype}</div>
+      <button type="button" class="btn-remove-prise flex-shrink-0 w-10 h-10 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" aria-label="Supprimer">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+      </button>`;
+    container.appendChild(wrapper);
+    container.dataset.index = index + 1;
+
+    // Applique les classes Tailwind aux champs générés
+    styleGeneratedFields(wrapper);
+  });
+
+  // Supprimer une prise (délégation d'événement)
+  container.addEventListener('click', function (e) {
+    if (e.target.closest('.btn-remove-prise')) {
+      e.target.closest('.prise-item').remove();
+    }
+  });
+
+  // Style des champs générés par le prototype
+  function styleGeneratedFields(wrapper) {
+    wrapper.querySelectorAll('.prise-fields > div').forEach(function (div) {
+      const label = div.querySelector('label');
+      if (label) label.className = 'block text-xs font-semibold text-gray-700 mb-1.5';
+      const input = div.querySelector('input');
+      if (input) input.className = 'w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent';
+    });
+  }
+});
+</script>
 {% endblock %}

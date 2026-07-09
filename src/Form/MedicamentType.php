@@ -6,6 +6,8 @@ use App\Entity\Medicament;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\PriseMedicamentType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class MedicamentType extends AbstractType
 {
@@ -16,6 +18,13 @@ class MedicamentType extends AbstractType
             ->add('dosage')
             ->add('date_debut')
             ->add('date_fin')
+    ->add('priseMedicaments', CollectionType::class, [
+    'entry_type' => PriseMedicamentType::class,
+    'allow_add' => true,
+    'allow_delete' => true,
+    'by_reference' => false,
+    'label' => 'Prises quotidiennes',
+])
         ;
     }
 

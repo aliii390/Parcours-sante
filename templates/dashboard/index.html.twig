@@ -90,69 +90,46 @@
           </div>
         </section>
       </div>
+<!-- ===== COLONNE DROITE (Médicaments) ===== -->
+<div class="lg:col-span-1">
+  <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 md:p-6">
+    <h2 class="flex items-center gap-2 text-base font-bold text-gray-900 mb-5">
+      <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+      </svg>
+      Médicaments du jour
+    </h2>
 
-      <!-- ===== COLONNE DROITE (Médicaments) ===== -->
-      {# {% for medicament in medicaments %} #}
-      <div class="lg:col-span-1">
-        <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 md:p-6">
-          <h2 class="flex items-center gap-2 text-base font-bold text-gray-900 mb-5">
-            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-            </svg>
-            Médicaments du jour
-          </h2>
-
-          <!-- MATIN -->
-          <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Matin</p>
-          <div class="space-y-2 mb-5">
-            <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-              <input type="checkbox" checked class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900">
-              <div class="flex-1">
-                <p class="text-sm font-bold text-gray-900">mettre le nom du médicament</p>
-                <p class="text-xs text-gray-400">1 comprimé • 08:00</p>
-              </div>
-            </label>
-            <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-              <input type="checkbox" checked class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900">
-              <div class="flex-1">
-                <p class="text-sm font-bold text-gray-900">Bisoprolol 2.5mg</p>
-                <p class="text-xs text-gray-400">1 comprimé • 08:00</p>
-              </div>
-            </label>
-          </div>
-
-          <!-- MIDI -->
-          <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Midi</p>
-          <div class="space-y-2 mb-5">
-            <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-              <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900">
-              <div class="flex-1">
-                <p class="text-sm font-bold text-gray-900">Complément Fer</p>
-                <p class="text-xs text-gray-400">1 gélule • 12:30</p>
-              </div>
-            </label>
-          </div>
-
-          <!-- SOIR -->
-          <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Soir</p>
-          <div class="space-y-2 mb-5">
-            <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-              <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900">
-              <div class="flex-1">
-                <p class="text-sm font-bold text-gray-900">Atorvastatine 20mg</p>
-                <p class="text-xs text-gray-400">1 comprimé • 20:00</p>
-              </div>
-            </label>
-          </div>
-
-          <!-- Ajouter -->
-          <a href="{{path('app_ajout_medicament')}}" class="w-full border-2 border-dashed border-gray-200 hover:border-gray-300 text-gray-500 hover:text-gray-700 text-sm font-medium py-3 rounded-xl transition-colors">
-            + Ajouter un médicament
-          </a>
-        </section>
-      </div>
+    <div class="space-y-2 mb-5">
+      {% for medicament in medicaments %}
+        {% for prise in medicament.priseMedicaments %}
+          <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
+            <input type="checkbox"
+                   class="prise-checkbox w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                   data-prise-id="{{ prise.id }}"
+                   {{ prise.effectuee ? 'checked' : '' }}>
+            <div class="flex-1">
+              <p class="text-sm font-bold text-gray-900 prise-nom {{ prise.effectuee ? 'line-through text-gray-400' : '' }}">
+                {{ medicament.nom }} {{ medicament.dosage }}
+              </p>
+              <p class="text-xs text-gray-400">
+                {{ prise.nombresComprimes }} comprimé{{ prise.nombresComprimes > 1 ? 's' : '' }} • {{ prise.heurePrevue|date('H:i') }}
+              </p>
+            </div>
+          </label>
+        {% endfor %}
+      {% else %}
+        <p class="text-sm text-gray-400 text-center py-4">Aucun médicament pour le moment.</p>
+      {% endfor %}
     </div>
-    {# {% endfor %} #}
+
+    <!-- Ajouter -->
+    <a href="{{ path('app_ajout_medicament') }}" class="block text-center w-full border-2 border-dashed border-gray-200 hover:border-gray-300 text-gray-500 hover:text-gray-700 text-sm font-medium py-3 rounded-xl transition-colors">
+      + Ajouter un médicament
+    </a>
+  </section>
+</div>
+
   </main>
 
   <!-- ===== BOTTOM NAV (mobile uniquement) ===== -->
@@ -177,4 +154,34 @@
     </div>
   </nav>
 </div>
+
+<script>
+document.querySelectorAll('.prise-checkbox').forEach(function (checkbox) {
+  checkbox.addEventListener('change', function () {
+    const priseId = this.dataset.priseId;
+    const nom = this.closest('label').querySelector('.prise-nom');
+    const self = this;
+
+    fetch('/prise/' + priseId + '/toggle', {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(function (response) {
+      if (!response.ok) throw new Error('Erreur');
+      return response.json();
+    })
+    .then(function (data) {
+      if (data.effectuee) {
+        nom.classList.add('line-through', 'text-gray-400');
+      } else {
+        nom.classList.remove('line-through', 'text-gray-400');
+      }
+    })
+    .catch(function () {
+      self.checked = !self.checked;
+    });
+  });
+});
+</script>
+
 {% endblock %}

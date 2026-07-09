@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\PriseMedicament;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class MedicamentController extends AbstractController
 {
@@ -25,8 +27,6 @@ final class MedicamentController extends AbstractController
             'medicaments' => $medicament,
         ]);
     }
-
-
 
      #[Route('/ajoutMedicament', name: 'app_ajout_medicament')]
     public function ajouterMedicament(EntityManagerInterface $entityManager, Request $request): Response
@@ -55,4 +55,26 @@ final class MedicamentController extends AbstractController
             'medicamentType' => $form->createView(),
         ]);
     }
+
+
+
+    // route qui permet de valider si on a pris un médicament directement sur le dashboard 
+#[Route('/prise/{id}/toggle', name: 'app_prise_toggle', methods: ['POST'])]
+public function togglePrise(PriseMedicament $prise, EntityManagerInterface $em): JsonResponse
+{
+    // Sécurité : vérifier que la prise appartient bien à l'utilisateur connecté
+    if ($prise->getMedicament()->getUser() !== $this->getUser()) {
+        return new JsonResponse(['error' => 'Accès refusé'], 403);
+    }
+
+    // On inverse l'état
+    $prise->setEffectuee(!$prise->isEffectuee());
+    $em->flush();
+
+    return new JsonResponse([
+        'effectuee' => $prise->isEffectuee()
+    ]);
+}
+
+
 }

@@ -19,11 +19,13 @@ class PriseMedicament
     #[ORM\Column]
     private ?int $nombresComprimes = null;
 
-    #[ORM\Column]
-    private ?bool $effectuee = null;
+   
 
     #[ORM\ManyToOne(inversedBy: 'priseMedicaments')]
     private ?Medicament $medicament = null;
+
+    #[ORM\Column]
+    private ?bool $effectuee = false;
 
     public function getId(): ?int
     {
@@ -54,17 +56,7 @@ class PriseMedicament
         return $this;
     }
 
-    public function isEffectuee(): ?bool
-    {
-        return $this->effectuee;
-    }
-
-    public function setEffectuee(bool $effectuee): static
-    {
-        $this->effectuee = $effectuee;
-
-        return $this;
-    }
+   
 
     public function getMedicament(): ?Medicament
     {
@@ -74,6 +66,18 @@ class PriseMedicament
     public function setMedicament(?Medicament $medicament): static
     {
         $this->medicament = $medicament;
+
+        return $this;
+    }
+
+    public function isEffectuee(): ?bool
+    {
+        return $this->effectuee;
+    }
+
+    public function setEffectuee(bool $effectuee): static
+    {
+        $this->effectuee = $effectuee;
 
         return $this;
     }

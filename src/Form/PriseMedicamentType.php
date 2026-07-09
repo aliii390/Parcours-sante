@@ -18,7 +18,7 @@ class PriseMedicamentType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Heure de prise',
             ])
-            ->add('nombreComprimes', IntegerType::class, [
+            ->add('nombresComprimes', IntegerType::class, [
                 'label' => 'Nombre de comprimés',
             ])
         ;

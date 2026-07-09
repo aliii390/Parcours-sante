@@ -32,11 +32,11 @@ class Medicament
     #[ORM\ManyToOne(inversedBy: 'medicaments')]
     private ?User $user = null;
 
-    /**
-     * @var Collection<int, PriseMedicament>
-     */
-    #[ORM\OneToMany(targetEntity: PriseMedicament::class, mappedBy: 'medicament')]
-    private Collection $priseMedicaments;
+  /**
+ * @var Collection<int, PriseMedicament>
+ */
+#[ORM\OneToMany(targetEntity: PriseMedicament::class, mappedBy: 'medicament', cascade: ['persist', 'remove'], orphanRemoval: true)]
+private Collection $priseMedicaments;
 
     public function __construct()
     {

@@ -59,11 +59,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Medicament::class, mappedBy: 'user')]
     private Collection $medicaments;
 
+    /**
+     * @var Collection<int, Journal>
+     */
+    #[ORM\OneToMany(targetEntity: Journal::class, mappedBy: 'user')]
+    private Collection $journals;
+
     public function __construct()
     {
         $this->rendezVouses = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->medicaments = new ArrayCollection();
+        $this->journals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -255,6 +262,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($medicament->getUser() === $this) {
                 $medicament->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Journal>
+     */
+    public function getJournals(): Collection
+    {
+        return $this->journals;
+    }
+
+    public function addJournal(Journal $journal): static
+    {
+        if (!$this->journals->contains($journal)) {
+            $this->journals->add($journal);
+            $journal->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJournal(Journal $journal): static
+    {
+        if ($this->journals->removeElement($journal)) {
+            // set the owning side to null (unless already changed)
+            if ($journal->getUser() === $this) {
+                $journal->setUser(null);
             }
         }
 

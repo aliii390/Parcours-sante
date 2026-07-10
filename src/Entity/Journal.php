@@ -17,8 +17,19 @@ class Journal
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'journal')]
+    private ?Symptome $symptome = null;
+
+    #[ORM\Column(type: 'smallint')]
+    private ?int $intensite = null;
+
+    #[ORM\ManyToOne(inversedBy: 'journals')]
+    private ?User $user = null;
+
     #[ORM\Column(length: 255)]
-    private ?string $symptome = null;
+    private ?string $note = null;
+
+   
 
     public function getId(): ?int
     {
@@ -37,15 +48,53 @@ class Journal
         return $this;
     }
 
-    public function getSymptome(): ?string
+    public function getSymptome(): ?Symptome
     {
         return $this->symptome;
     }
 
-    public function setSymptome(string $symptome): static
+    public function setSymptome(?Symptome $symptome): static
     {
         $this->symptome = $symptome;
 
         return $this;
     }
+
+    public function getIntensite(): ?int
+    {
+        return $this->intensite;
+    }
+
+    public function setIntensite(int $intensite): static
+    {
+        $this->intensite = $intensite;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(string $note): static
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+   
 }

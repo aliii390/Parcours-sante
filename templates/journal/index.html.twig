@@ -5,8 +5,6 @@
 {% block body %}
 <div class="min-h-screen bg-slate-50 flex flex-col pb-20 md:pb-0">
 
-  
-
   <!-- ===== MAIN ===== -->
   <main class="flex-1 max-w-5xl w-full mx-auto px-4 md:px-8 py-8">
 
@@ -16,7 +14,7 @@
         <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">Mon journal</h1>
         <p class="text-gray-500 text-sm md:text-base">Suivez l'évolution de vos symptômes au quotidien.</p>
       </div>
-      <a href="#" class="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-5 py-3 rounded-xl transition-colors whitespace-nowrap">
+      <a href="{{ path('app_ajout_journal') }}" class="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-5 py-3 rounded-xl transition-colors whitespace-nowrap">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         Nouvelle entrée
       </a>
@@ -45,40 +43,34 @@
     </div>
 
     <div class="space-y-3">
-
-      <!-- Entrée 1 -->
       {% for journal in infoJournal %}
-      <a href="#" class="block bg-white rounded-2xl border border-gray-100 shadow-sm p-4 md:p-5 hover:border-gray-200 transition-colors">
-        <div class="flex items-start gap-4">
-          <div class="flex-1 min-w-0">
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
-              <div>
-                <p class="text-sm font-bold text-gray-900">{{ journal.date|format_datetime(pattern='d MMMM yyyy', locale='fr') }}</p>
-                {# <p class="text-xs text-gray-400">20:45</p> #}
+        <a href="#" class="block bg-white rounded-2xl border border-gray-100 shadow-sm p-4 md:p-5 hover:border-gray-200 transition-colors">
+          <div class="flex items-start gap-4">
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
+                <div>
+                  <p class="text-sm font-bold text-gray-900">{{ journal.date|format_datetime(pattern='d MMMM yyyy', locale='fr') }}</p>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">{{ journal.symptome.nom }}</span>
+                </div>
               </div>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">{{journal.symptome.nom}}</span>
-                {# <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">Maux de tête</span> #}
+              <p class="text-sm text-gray-500 leading-relaxed">{{ journal.note }}</p>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <div class="text-right">
+                <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Intensité</p>
+                <p class="text-xl font-bold text-gray-900">{{ journal.intensite }}<span class="text-xs text-gray-400 font-normal">/10</span></p>
               </div>
+              <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
-            <p class="text-sm text-gray-500 leading-relaxed">{{journal.note}}</p>
           </div>
-          <div class="flex items-center gap-3 flex-shrink-0">
-            <div class="text-right">
-              <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Intensité</p>
-              <p class="text-xl font-bold text-gray-900">{{journal.intensite}}<span class="text-xs text-gray-400 font-normal">/10</span></p>
-            </div>
-            <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
+        </a>
+      {% else %}
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
+          <p class="text-sm text-gray-400">Aucune entrée pour le moment. Ajoutez votre première entrée.</p>
         </div>
-      </a>
-       {% endfor %}
-
-    
-   
-
-    
-
+      {% endfor %}
     </div>
 
     <!-- Charger plus -->
@@ -88,8 +80,6 @@
       </button>
     </div>
   </main>
-
-  
 
   <!-- ===== BOTTOM NAV (mobile) ===== -->
   <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40">
@@ -124,10 +114,18 @@ document.addEventListener('DOMContentLoaded', function () {
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ['15 Fév','18 Fév','21 Fév','24 Fév','27 Fév','02 Mar','05 Mar','08 Mar','11 Mar','14 Mar'],
+      labels: [
+        {% for journal in infoJournal|reverse %}
+          "{{ journal.date|format_datetime(pattern='d MMM', locale='fr') }}"{{ not loop.last ? ',' : '' }}
+        {% endfor %}
+      ],
       datasets: [{
         label: 'Intensité',
-        data: [2, 4, 3, 7, 5, 4, 6, 3, 5, 6],
+        data: [
+          {% for journal in infoJournal|reverse %}
+            {{ journal.intensite }}{{ not loop.last ? ',' : '' }}
+          {% endfor %}
+        ],
         borderColor: '#111827',
         backgroundColor: '#111827',
         borderWidth: 2,

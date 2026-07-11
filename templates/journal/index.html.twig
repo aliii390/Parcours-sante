@@ -47,106 +47,37 @@
     <div class="space-y-3">
 
       <!-- Entrée 1 -->
+      {% for journal in infoJournal %}
       <a href="#" class="block bg-white rounded-2xl border border-gray-100 shadow-sm p-4 md:p-5 hover:border-gray-200 transition-colors">
         <div class="flex items-start gap-4">
           <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
               <div>
-                <p class="text-sm font-bold text-gray-900">14 Mars 2026</p>
-                <p class="text-xs text-gray-400">20:45</p>
+                <p class="text-sm font-bold text-gray-900">{{ journal.date|format_datetime(pattern='d MMMM yyyy', locale='fr') }}</p>
+                {# <p class="text-xs text-gray-400">20:45</p> #}
               </div>
               <div class="flex flex-wrap gap-1.5">
-                <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">Fatigue</span>
-                <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">Maux de tête</span>
+                <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">{{journal.symptome.nom}}</span>
+                {# <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">Maux de tête</span> #}
               </div>
             </div>
-            <p class="text-sm text-gray-500 leading-relaxed">Légère fatigue après la marche de l'après-midi. Pas de douleur thoracique signalée, mais une tension aux tempes vers 18h.</p>
+            <p class="text-sm text-gray-500 leading-relaxed">{{journal.note}}</p>
           </div>
           <div class="flex items-center gap-3 flex-shrink-0">
             <div class="text-right">
               <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Intensité</p>
-              <p class="text-xl font-bold text-gray-900">6<span class="text-xs text-gray-400 font-normal">/10</span></p>
+              <p class="text-xl font-bold text-gray-900">{{journal.intensite}}<span class="text-xs text-gray-400 font-normal">/10</span></p>
             </div>
             <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </div>
         </div>
       </a>
+       {% endfor %}
 
-      <!-- Entrée 2 -->
-      <a href="#" class="block bg-white rounded-2xl border border-gray-100 shadow-sm p-4 md:p-5 hover:border-gray-200 transition-colors">
-        <div class="flex items-start gap-4">
-          <div class="flex-1 min-w-0">
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
-              <div>
-                <p class="text-sm font-bold text-gray-900">11 Mars 2026</p>
-                <p class="text-xs text-gray-400">09:15</p>
-              </div>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">Nausée</span>
-              </div>
-            </div>
-            <p class="text-sm text-gray-500 leading-relaxed">Sensation de nausée passagère au réveil. S'est dissipée après le petit-déjeuner et la prise des médicaments.</p>
-          </div>
-          <div class="flex items-center gap-3 flex-shrink-0">
-            <div class="text-right">
-              <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Intensité</p>
-              <p class="text-xl font-bold text-gray-900">5<span class="text-xs text-gray-400 font-normal">/10</span></p>
-            </div>
-            <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
+    
+   
 
-      <!-- Entrée 3 -->
-      <a href="#" class="block bg-white rounded-2xl border border-gray-100 shadow-sm p-4 md:p-5 hover:border-gray-200 transition-colors">
-        <div class="flex items-start gap-4">
-          <div class="flex-1 min-w-0">
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
-              <div>
-                <p class="text-sm font-bold text-gray-900">08 Mars 2026</p>
-                <p class="text-xs text-gray-400">14:30</p>
-              </div>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">Palpitations</span>
-              </div>
-            </div>
-            <p class="text-sm text-gray-500 leading-relaxed">Légères palpitations pendant environ 5 minutes. Repos immédiat assis, retour à la normale rapide.</p>
-          </div>
-          <div class="flex items-center gap-3 flex-shrink-0">
-            <div class="text-right">
-              <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Intensité</p>
-              <p class="text-xl font-bold text-gray-900">3<span class="text-xs text-gray-400 font-normal">/10</span></p>
-            </div>
-            <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-
-      <!-- Entrée 4 -->
-      <a href="#" class="block bg-white rounded-2xl border border-gray-100 shadow-sm p-4 md:p-5 hover:border-gray-200 transition-colors">
-        <div class="flex items-start gap-4">
-          <div class="flex-1 min-w-0">
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
-              <div>
-                <p class="text-sm font-bold text-gray-900">05 Mars 2026</p>
-                <p class="text-xs text-gray-400">21:00</p>
-              </div>
-              <div class="flex flex-wrap gap-1.5">
-                <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">Fatigue</span>
-                <span class="text-xs font-medium bg-slate-100 text-gray-700 px-2.5 py-1 rounded-lg">Essoufflement</span>
-              </div>
-            </div>
-            <p class="text-sm text-gray-500 leading-relaxed">Essoufflement plus marqué que d'habitude lors de la montée des escaliers. Nécessité de faire une pause.</p>
-          </div>
-          <div class="flex items-center gap-3 flex-shrink-0">
-            <div class="text-right">
-              <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Intensité</p>
-              <p class="text-xl font-bold text-gray-900">6<span class="text-xs text-gray-400 font-normal">/10</span></p>
-            </div>
-            <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
+    
 
     </div>
 

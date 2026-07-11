@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Journal;
 use App\Form\JournalType;
+use App\Repository\JournalRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,15 @@ use Symfony\UX\Chartjs\Model\Chart;
 final class JournalController extends AbstractController
 {
     #[Route('/journal', name: 'app_journal')]
-    public function index(): Response
+    public function index(JournalRepository $journalRepo): Response
     {
+        $user = $this->getUser();
+
+        $journal = $journalRepo->findBy(['user'=> $user]) ;
+
+
         return $this->render('journal/index.html.twig', [
-            'controller_name' => 'JournalController',
+            'infoJournal' => $journal,
         ]);
     }
 

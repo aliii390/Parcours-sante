@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil — Parcours Santé{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-slate-50 flex flex-col pb-20 md:pb-0">
+
+  
+
+  <!-- ===== MAIN ===== -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 md:px-8 py-8">
+
+    <!-- Titre -->
+    <div class="mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">Mon profil</h1>
+      <p class="text-gray-500 text-sm md:text-base">Gérez vos informations personnelles et vos préférences.</p>
+    </div>
+
+    <!-- Carte identité -->
+    <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 md:p-6 mb-6">
+      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-violet-500 flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
+          {{ app.user.prenom|first|upper }}{{ app.user.nom|first|upper }}
+        </div>
+        <div class="flex-1 text-center sm:text-left">
+          <h2 class="text-xl font-bold text-gray-900">{{ app.user.prenom }} {{ app.user.nom }}</h2>
+          <p class="text-sm text-gray-500 mb-3">{{ app.user.email }}</p>
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium bg-slate-100 text-gray-700 px-3 py-1 rounded-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+            Compte patient actif
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Informations personnelles -->
+    <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 md:p-6 mb-6">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-base font-bold text-gray-900">Informations personnelles</h2>
+      </div>
+
+      <form method="post" class="space-y-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="prenom" class="block text-sm font-semibold text-gray-900 mb-2">Prénom</label>
+            <input type="text" name="prenom" id="prenom" value="{{ app.user.prenom }}"
+              class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+          </div>
+          <div>
+            <label for="nom" class="block text-sm font-semibold text-gray-900 mb-2">Nom</label>
+            <input type="text" name="nom" id="nom" value="{{ app.user.nom }}"
+              class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+          </div>
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">Adresse e-mail</label>
+          <div class="relative">
+            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <input type="email" name="email" id="email" value="{{ app.user.email }}"
+              class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+          </div>
+        </div>
+        <div class="flex justify-end pt-2">
+          <button type="submit" class="text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 px-6 py-3 rounded-lg transition-colors">Enregistrer les modifications</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Sécurité -->
+    <section class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 md:p-6 mb-6">
+      <h2 class="text-base font-bold text-gray-900 mb-5">Sécurité</h2>
+      <form method="post" class="space-y-5">
+        <div>
+          <label for="current_password" class="block text-sm font-semibold text-gray-900 mb-2">Mot de passe actuel</label>
+          <input type="password" name="current_password" id="current_password" placeholder="••••••••"
+            class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="new_password" class="block text-sm font-semibold text-gray-900 mb-2">Nouveau mot de passe</label>
+            <input type="password" name="new_password" id="new_password" placeholder="••••••••"
+              class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+          </div>
+          <div>
+            <label for="confirm_password" class="block text-sm font-semibold text-gray-900 mb-2">Confirmer</label>
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="••••••••"
+              class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+          </div>
+        </div>
+        <div class="flex justify-end pt-2">
+          <button type="submit" class="text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 px-6 py-3 rounded-lg transition-colors">Modifier le mot de passe</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Zone dangereuse -->
+    <section class="bg-white rounded-2xl border border-red-100 shadow-sm p-5 md:p-6">
+      <h2 class="text-base font-bold text-red-600 mb-2">Zone dangereuse</h2>
+      <p class="text-sm text-gray-500 mb-4">La suppression de votre compte est définitive. Toutes vos données (rendez-vous, médicaments, journal) seront effacées conformément au RGPD.</p>
+      <a href="#" class="inline-flex items-center gap-2 text-sm font-semibold text-red-600 border border-red-200 hover:bg-red-50 px-5 py-2.5 rounded-lg transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        Supprimer mon compte
+      </a>
+    </section>
+  </main>
+
+  <!-- ===== BOTTOM NAV (mobile) ===== -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40">
+    <div class="grid grid-cols-4">
+      <a href="{{ path('app_dashboard') }}" class="flex flex-col items-center gap-1 py-3 text-gray-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13l2-2m0 0l7-7 7 7M5 11v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-[10px] font-medium">Dashboard</span>
+      </a>
+      <a href="{{ path('app_rendez_vous') }}" class="flex flex-col items-center gap-1 py-3 text-gray-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span class="text-[10px] font-medium">Rendez-vous</span>
+      </a>
+      <a href="{{ path('app_medicament') }}" class="flex flex-col items-center gap-1 py-3 text-gray-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+        <span class="text-[10px] font-medium">Médicaments</span>
+      </a>
+      <a href="{{ path('app_journal') }}" class="flex flex-col items-center gap-1 py-3 text-gray-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span class="text-[10px] font-medium">Journal</span>
+      </a>
+    </div>
+  </nav>
+</div>
+{% endblock %}

@@ -26,7 +26,7 @@ final class JournalController extends AbstractController
         return $this->render('journal/index.html.twig', [
             'infoJournal' => $journal,
         ]);
-    }
+        }
 
 
 

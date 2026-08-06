@@ -27,6 +27,9 @@ class PriseMedicament
     #[ORM\Column]
     private ?bool $effectuee = false;
 
+
+
+
     public function getId(): ?int
     {
         return $this->id;

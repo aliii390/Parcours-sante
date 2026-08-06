@@ -75,7 +75,18 @@
         </svg>
         Fin : <span class="font-semibold text-gray-900">{{ medicament.dateFin ? medicament.dateFin|date('d/m/Y') : '—' }}</span>
       </div>
+      {% for prise in medicament.priseMedicaments %}
+ <div class="flex items-center gap-2 text-sm text-gray-600">
+        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" stroke-width="2"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 2"/>
+        </svg>
+        rappel médicament :<span class="font-semibold text-gray-900">  {{ prise.heurePrevue|date('H:i') }}</span>
+      </div>
+  
+{% endfor %}
     </div>
+
 
     <a href="#" class="mt-auto block text-center text-sm font-medium {{ medicament.actif ? 'text-gray-700' : 'text-gray-500' }} border border-gray-200 hover:border-gray-300 py-2.5 rounded-lg transition-colors">
       Modifier

@@ -65,12 +65,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Journal::class, mappedBy: 'user')]
     private Collection $journals;
 
+
+
     public function __construct()
     {
         $this->rendezVouses = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->medicaments = new ArrayCollection();
         $this->journals = new ArrayCollection();
+       
     }
 
     public function getId(): ?int
@@ -297,4 +300,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+  
 }

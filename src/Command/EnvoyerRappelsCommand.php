@@ -22,6 +22,8 @@ class EnvoyerRappelsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        //   $rdv = $rdvRepo->findBy(['user' => $user]);
+        // $medoc = $medicamentRepo->findBy(['user'=>$user]);
         // On récupère toutes les prises non effectuées
         $prises = $this->priseRepo->findBy(['effectuee' => false]);
 

@@ -40,4 +40,16 @@ class PriseMedicamentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findPrisesNonEffectuees(int $userId): array
+{
+    return $this->createQueryBuilder('p')
+        ->join('p.medicament', 'm')
+        ->where('m.user = :userId')          // ← filtre par utilisateur
+        ->andWhere('p.effectuee = false')
+        ->setParameter('userId', $userId)
+        ->orderBy('p.heurePrevue', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
 }

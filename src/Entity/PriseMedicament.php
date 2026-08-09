@@ -27,6 +27,8 @@ class PriseMedicament
     #[ORM\Column]
     private ?bool $effectuee = false;
 
+  
+
 
 
 
@@ -84,4 +86,6 @@ class PriseMedicament
 
         return $this;
     }
+
+ 
 }

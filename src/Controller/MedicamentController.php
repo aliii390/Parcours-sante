@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\PriseMedicament;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\PriseMedicamentRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 final class MedicamentController extends AbstractController
 {
@@ -75,6 +78,15 @@ public function togglePrise(PriseMedicament $prise, EntityManagerInterface $em):
         'effectuee' => $prise->isEffectuee()
     ]);
 }
+
+
+
+
+
+
+
+
+
 
 
 }

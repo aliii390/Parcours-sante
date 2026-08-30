@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 class RendezVousType extends AbstractType
 {
@@ -24,6 +26,7 @@ class RendezVousType extends AbstractType
     'choice_label' => 'nom',        // ← affiche le nom de la catégorie
     'placeholder' => 'Sélectionnez un type',  // ← ajoute l'option vide en haut
     'label' => false,                // ← on gère le label dans le Twig
+    
 ])
         ;
     }

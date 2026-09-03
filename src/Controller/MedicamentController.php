@@ -80,6 +80,28 @@ public function togglePrise(PriseMedicament $prise, EntityManagerInterface $em):
 }
 
 
+#[Route('/medicament/{id}/modifier', name: 'app_modifier_medicament')]
+public function modifier(Medicament $medicament, EntityManagerInterface $em, Request $request): Response
+{
+    // 🔒 Sécurité : on vérifie que le médicament appartient bien à l'utilisateur connecté
+    if ($medicament->getUser() !== $this->getUser()) {
+        throw $this->createAccessDeniedException();
+    }
+
+    // Le formulaire est pré-rempli automatiquement avec le médicament existant
+    $form = $this->createForm(MedicamentType::class, $medicament);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $em->flush(); // l'objet est déjà suivi par Doctrine → un simple flush suffit
+        return $this->redirectToRoute('app_medicament');
+    }
+
+    return $this->render('medicament/_modifier_form.html.twig', [
+        'medicamentType' => $form->createView(),
+        'medicament' => $medicament,
+    ]);
+}
 
 
 

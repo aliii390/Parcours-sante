@@ -28,9 +28,9 @@
           <span class="w-2.5 h-2.5 rounded-full bg-gray-900"></span>Intensité
         </span>
       </div>
-      <div class="relative w-full" style="height:300px">
-        <canvas id="symptomesChart"></canvas>
-      </div>
+    <div class="relative w-full" style="height:300px">
+  {{ render_chart(chart, {'style': 'height: 100%; width: 100%;'}) }}
+</div>
     </section>
 
     <!-- HISTORIQUE -->
@@ -104,55 +104,4 @@
   </nav>
 </div>
 
-<!-- Chart.js via CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const ctx = document.getElementById('symptomesChart');
-  if (!ctx) return;
-
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [
-        {% for journal in infoJournal|reverse %}
-          "{{ journal.date|format_datetime(pattern='d MMM', locale='fr') }}"{{ not loop.last ? ',' : '' }}
-        {% endfor %}
-      ],
-      datasets: [{
-        label: 'Intensité',
-        data: [
-          {% for journal in infoJournal|reverse %}
-            {{ journal.intensite }}{{ not loop.last ? ',' : '' }}
-          {% endfor %}
-        ],
-        borderColor: '#111827',
-        backgroundColor: '#111827',
-        borderWidth: 2,
-        pointRadius: 4,
-        pointBackgroundColor: '#111827',
-        tension: 0.3,
-        fill: false
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 10,
-          ticks: { stepSize: 2, color: '#9CA3AF' },
-          grid: { color: '#F3F4F6' }
-        },
-        x: {
-          ticks: { color: '#9CA3AF' },
-          grid: { display: false }
-        }
-      }
-    }
-  });
-});
-</script>
 {% endblock %}  
